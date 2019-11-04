@@ -11,6 +11,14 @@ const DocumentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  documentName: {
+    type: String,
+    required: true
+  },
+  documentFormat: {
+    type: String,
+    required: true
+  },
   document: {
     session_delete_url: {
       type: String,

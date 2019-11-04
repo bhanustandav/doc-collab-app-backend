@@ -42,6 +42,8 @@ function getDocumentsByClient(req, res) {
 function create(req, res, next) {
   const document = new Document({
     clientId: req.body.clientId,
+    documentName: req.body.documentName,
+    documentFormat: req.body.documentFormat,
     document: req.body.document
   });
 
@@ -59,6 +61,8 @@ function create(req, res, next) {
 function update(req, res, next) {
   const document = req.document;
   document.clientId = req.body.clientId;
+  document.documentName = req.body.documentName;
+  document.documentFormat = req.body.documentFormat;
   document.document = req.body.document;
 
   document.save()
