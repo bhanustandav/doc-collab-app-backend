@@ -3,8 +3,8 @@ const express = require('express');
 const validate = require('express-validation');
 // eslint-disable-next-line import/newline-after-import
 const multer = require('multer');
+// eslint-disable-next-line no-unused-vars
 const upload = multer();
-const paramValidation = require('../../config/param-validation');
 const officeintegratorCtrl = require('./zoho-office-integrator.controller');
 
 const router = express.Router(); // eslint-disable-line new-cap

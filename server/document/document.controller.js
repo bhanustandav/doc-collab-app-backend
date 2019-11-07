@@ -94,4 +94,5 @@ function remove(req, res, next) {
     .catch(e => next(e));
 }
 
+// eslint-disable-next-line max-len
 module.exports = { load, get, create, update, list, remove, getDocumentsByClient, loadDocumentsByClient };

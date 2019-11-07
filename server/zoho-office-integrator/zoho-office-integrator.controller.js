@@ -1,4 +1,3 @@
-const axios = require('axios');
 const request = require('request');
 // eslint-disable-next-line no-unused-vars
 const fs = require('fs');
