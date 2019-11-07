@@ -1,5 +1,6 @@
 const express = require('express');
 const documentRoutes = require('./server/document/document.route');
+const officeIntegratorRoutes = require('./server/zoho-office-integrator/zoho-office-integrator.route');
 const userRoutes = require('./server/user/user.route');
 const authRoutes = require('./server/auth/auth.route');
 
@@ -13,6 +14,8 @@ router.get('/health-check', (req, res) =>
 );
 
 router.use('/documents', documentRoutes);
+
+router.use('/officeIntegrator/files', officeIntegratorRoutes);
 
 // mount user routes at /users
 router.use('/users', userRoutes);
