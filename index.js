@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const util = require('util');
-const express = require('express');
 const bodyParser = require('body-parser');
 
 // config should be imported before importing any other file

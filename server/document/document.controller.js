@@ -1,8 +1,7 @@
 const Document = require('./document.model');
 
-
-// eslint-disable-next-line consistent-return,no-undef
-uploadDocument = (req, res, next) => {
+// eslint-disable-next-line consistent-return
+function uploadDocument(req, res, next) {
   // console.log(JSON.stringify(req.file))
   const file = req.file;
   if (!file) {
@@ -11,7 +10,7 @@ uploadDocument = (req, res, next) => {
     return next(error);
   }
   res.send(file);
-};
+}
 
 
 function loadDocumentsByClient(req, res, next, id) {
