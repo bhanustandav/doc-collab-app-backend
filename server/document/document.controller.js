@@ -1,5 +1,19 @@
 const Document = require('./document.model');
 
+
+// eslint-disable-next-line consistent-return,no-undef
+uploadDocument = (req, res, next) => {
+  // console.log(JSON.stringify(req.file))
+  const file = req.file;
+  if (!file) {
+    const error = new Error('Please upload a file');
+    error.httpStatusCode = 400;
+    return next(error);
+  }
+  res.send(file);
+};
+
+
 function loadDocumentsByClient(req, res, next, id) {
   Document.getDocumentsByClientId(id)
     .then((documents) => {
@@ -95,4 +109,4 @@ function remove(req, res, next) {
 }
 
 // eslint-disable-next-line max-len
-module.exports = { load, get, create, update, list, remove, getDocumentsByClient, loadDocumentsByClient };
+module.exports = { load, get, create, update, list, remove, getDocumentsByClient, loadDocumentsByClient, uploadDocument };

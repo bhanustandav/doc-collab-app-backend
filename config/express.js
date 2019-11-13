@@ -13,6 +13,7 @@ const winstonInstance = require('./winston');
 const routes = require('../index.route');
 const config = require('./config');
 const APIError = require('../server/helpers/APIError');
+const path = require('path');
 
 const app = express();
 
@@ -33,6 +34,8 @@ app.use(helmet());
 
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors());
+
+app.use('/static', express.static(path.join(__dirname, 'uploads')));
 
 // enable detailed API logging in dev env
 if (config.env === 'development') {

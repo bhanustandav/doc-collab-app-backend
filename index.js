@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
 const util = require('util');
+const express = require('express');
+const bodyParser = require('body-parser');
 
 // config should be imported before importing any other file
 const config = require('./config/config');
+// eslint-disable-next-line import/newline-after-import
 const app = require('./config/express');
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 const debug = require('debug')('doc-collab-app-backend:index');
 

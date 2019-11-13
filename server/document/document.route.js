@@ -1,6 +1,20 @@
 const express = require('express');
 const documentCtrl = require('./document.controller');
 
+const multer = require('multer');
+
+// SET STORAGE
+const storage = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, 'uploads');
+  },
+  filename(req, file, cb) {
+    cb(null, `${file.fieldname}-${Date.now()}${'.docx'}`);
+  }
+});
+
+const upload = multer({ storage });
+
 const router = express.Router(); // eslint-disable-line new-cap
 
 router.route('/')
@@ -9,6 +23,11 @@ router.route('/')
 
   /** POST /api/documents - Create new document */
   .post(documentCtrl.create);
+
+
+router.route('/upload')
+/** GET /api/documents/:documentId - Get document */
+  .post(upload.single('file'), documentCtrl.uploadDocument);
 
 router.route('/clientId/:clientId')
 /** GET /api/documents/:documentId - Get document */
