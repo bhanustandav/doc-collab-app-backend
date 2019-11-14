@@ -27,7 +27,7 @@ router.route('/')
 
 router.route('/upload')
 /** GET /api/documents/:documentId - Get document */
-  .post(upload.single('file'), documentCtrl.uploadDocument);
+  .post(upload.single('content'), documentCtrl.uploadDocument);
 
 router.route('/clientId/:clientId')
 /** GET /api/documents/:documentId - Get document */
