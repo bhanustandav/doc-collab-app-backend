@@ -14,7 +14,7 @@ function create(req, res, next) {
   //   .then(savedUser => res.json(savedUser))
   //   .catch(e => next(e));
 
-  const inputData = JSON.parse(req.body);
+  const inputData = req.body;
   console.log('form data', inputData);
 
 
@@ -24,6 +24,8 @@ function create(req, res, next) {
   for (const key in inputData) {
     formData.append(key, formData[key]);
   }
+
+  console.log('form data modified', formData);
 
   // eslint-disable-next-line consistent-return
   request.post({ url: 'https://writer.zoho.com/writer/v1/officeapi/document?apikey=19232f09d016ec7d0cba5e057d7dd652', formData }, (err, httpResponse, body) => {
