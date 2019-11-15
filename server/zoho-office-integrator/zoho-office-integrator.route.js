@@ -11,7 +11,7 @@ router.route('/')
   .post(upload.none(), officeintegratorCtrl.create);
 
 
-router.route('test')
+router.route('/test')
 /** POST /api/users - Create new user */
   .post(officeintegratorCtrl.createtest);
 
