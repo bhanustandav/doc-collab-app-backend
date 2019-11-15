@@ -35,7 +35,6 @@ app.use(helmet());
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors());
 
-app.use('/static', express.static(path.join(__dirname, 'uploads')));
 
 // enable detailed API logging in dev env
 if (config.env === 'development') {
@@ -51,6 +50,9 @@ if (config.env === 'development') {
 
 // mount all routes on /api path
 app.use('/api', routes);
+
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static('uploads'));
 
 // if error is not an instanceOf APIError, convert it.
 app.use((err, req, res, next) => {

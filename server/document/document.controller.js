@@ -4,6 +4,8 @@ const Document = require('./document.model');
 function uploadDocument(req, res, next) {
   // console.log(JSON.stringify(req.file))
   const file = req.file;
+  console.log('#########');
+  console.log(file);
   if (!file) {
     const error = new Error('Please upload a file');
     error.httpStatusCode = 400;
