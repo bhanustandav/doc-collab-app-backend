@@ -22,7 +22,7 @@ function create(req, res, next) {
 
   // eslint-disable-next-line guard-for-in,no-restricted-syntax
   for (const key in inputData) {
-    formData.append(key, formData[key]);
+    formData.append(key, inputData[key]);
   }
 
   console.log('form data modified', formData);
