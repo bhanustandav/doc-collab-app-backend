@@ -15,7 +15,6 @@ function create(req, res, next) {
 
   const inputData = req.body;
   console.log('form data', inputData);
-  console.log('form ', req.form);
 
   // eslint-disable-next-line consistent-return
   request.post({ url: 'https://writer.zoho.com/writer/v1/officeapi/document?apikey=19232f09d016ec7d0cba5e057d7dd652', formData: inputData }, (err, httpResponse, body) => {
