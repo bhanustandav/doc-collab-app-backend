@@ -14,7 +14,7 @@ function create(req, res, next) {
   //   .then(savedUser => res.json(savedUser))
   //   .catch(e => next(e));
 
-  const inputData = req.body;
+  const inputData = JSON.parse(req.body);
   console.log('form data', inputData);
 
 
