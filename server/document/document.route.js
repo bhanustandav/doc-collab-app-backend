@@ -9,6 +9,9 @@ const storage = multer.diskStorage({
     cb(null, 'uploads');
   },
   filename(req, file, cb) {
+    console.log(req.body);
+    console.log('%%%%%%%%%%%%');
+    console.log(file);
     cb(null, `${file.filename}`);
   }
 });
