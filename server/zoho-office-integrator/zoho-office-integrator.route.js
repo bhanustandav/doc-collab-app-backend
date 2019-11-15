@@ -10,4 +10,10 @@ router.route('/')
   /** POST /api/users - Create new user */
   .post(upload.none(), officeintegratorCtrl.create);
 
+
+router.route('test')
+/** POST /api/users - Create new user */
+  .post(officeintegratorCtrl.createtest);
+
+
 module.exports = router;

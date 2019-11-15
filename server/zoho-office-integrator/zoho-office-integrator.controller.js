@@ -35,4 +35,10 @@ function create(req, res, next) {
   });
 }
 
-module.exports = { create };
+
+// eslint-disable-next-line no-unused-vars
+function createtest(req, res, next) {
+  return res.send({ success: true });
+}
+
+module.exports = { create, createtest };
