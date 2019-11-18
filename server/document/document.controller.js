@@ -9,7 +9,11 @@ function uploadDocument(req, res, next) {
   console.log(req.body);
   const savedDocument = Document.getDocumentByDocumentId(req.body.id);
   savedDocument.fileMetada = req.file;
-  savedDocument.save().then(document => res.json(document))
+  // savedDocument.save().then(document => res.json(document))
+  //   .catch(e => next(e));
+
+  // eslint-disable-next-line consistent-return
+  savedDocument.update({ fileMetada: req.file }).then(document => res.json(document))
     .catch(e => next(e));
 }
 
