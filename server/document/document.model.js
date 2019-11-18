@@ -7,7 +7,7 @@ const APIError = require('../helpers/APIError');
  * User Schema
  */
 const DocumentSchema = new mongoose.Schema({
-  fileData: {
+  fileInfo: {
     document_defaults: {
       font_size: {
         type: String,
@@ -59,10 +59,11 @@ const DocumentSchema = new mongoose.Schema({
           required: true
         } },
       review: {
-        changes: { resolve: {
-          type: Boolean,
-          required: true
-        } },
+        changes: {
+          resolve: {
+            type: Boolean,
+            required: true
+          } },
         comment: {
           type: Boolean,
           required: true
