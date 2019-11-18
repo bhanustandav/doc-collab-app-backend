@@ -142,7 +142,7 @@ const DocumentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   }
-});
+}, { strict: false });
 
 /**
  * Add your
