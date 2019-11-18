@@ -15,6 +15,10 @@ const DocumentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  documentId: {
+    type: String,
+    required: true
+  },
   documentFormat: {
     type: String,
     required: true
