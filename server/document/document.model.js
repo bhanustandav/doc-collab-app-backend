@@ -45,29 +45,34 @@ const DocumentSchema = new mongoose.Schema({
       },
     },
     permissions: {
-      'document.export': {
-        type: Boolean,
-        required: true
+      document: {
+        export: {
+          type: Boolean,
+          required: true
+        },
+        print: {
+          type: Boolean,
+          required: true
+        },
+        edit: {
+          type: Boolean,
+          required: true
+        } },
+      review: {
+        changes: { resolve: {
+          type: Boolean,
+          required: true
+        } },
+        comment: {
+          type: Boolean,
+          required: true
+        }
       },
-      'document.print': {
-        type: Boolean,
-        required: true
-      },
-      'document.edit': {
-        type: Boolean,
-        required: true
-      },
-      'review.changes.resolve': {
-        type: Boolean,
-        required: true
-      },
-      'review.comment': {
-        type: Boolean,
-        required: true
-      },
-      'collab.chat': {
-        type: Boolean,
-        required: true
+      collab: {
+        chat: {
+          type: Boolean,
+          required: true
+        }
       }
     },
     callback_settings: {
