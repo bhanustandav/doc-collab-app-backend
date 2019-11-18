@@ -46,27 +46,27 @@ const DocumentSchema = new mongoose.Schema({
     },
     permissions: {
       'document.export': {
-        type: String,
+        type: Boolean,
         required: true
       },
       'document.print': {
-        type: String,
+        type: Boolean,
         required: true
       },
       'document.edit': {
-        type: String,
+        type: Boolean,
         required: true
       },
       'review.changes.resolve': {
-        type: String,
+        type: Boolean,
         required: true
       },
       'review.comment': {
-        type: String,
+        type: Boolean,
         required: true
       },
       'collab.chat': {
-        type: String,
+        type: Boolean,
         required: true
       }
     },
