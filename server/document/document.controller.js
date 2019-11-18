@@ -10,7 +10,12 @@ function uploadDocument(req, res, next) {
 
   const query = { 'fileInfo.document_info.document_id': req.body.id };
   const data = { fileMetada: req.file };
-  return res.json(Document.updateDocument(query, data));
+
+
+  Document.updateDocument(query, data).then(savedDocument => res.json(savedDocument))
+    .catch(e => next(e));
+
+  // return res.json(Document.updateDocument(query, data));
 }
 
 
