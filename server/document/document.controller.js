@@ -7,12 +7,10 @@ function uploadDocument(req, res, next) {
   console.log('#########');
   console.log(file);
   console.log(req.body);
-  if (!file) {
-    const error = new Error('Please upload a file');
-    error.httpStatusCode = 400;
-    return next(error);
-  }
-  res.send(file);
+  const savedDocument = Document.getDocumentByDocumentId(req.body.id);
+  savedDocument.fileMetada = req.file;
+  savedDocument.save().then(document => res.json(document))
+    .catch(e => next(e));
 }
 
 

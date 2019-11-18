@@ -162,6 +162,12 @@ DocumentSchema.method({
  */
 DocumentSchema.statics = {
 
+  getDocumentByDocumentId(id) {
+    return this.find({ fileInfo: { document_info: { document_id: id } } })
+      .exec()
+      .then(document => document);
+  },
+
 
   getDocumentsByClientId(id) {
     return this.find({ clientId: id })
