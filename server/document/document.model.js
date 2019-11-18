@@ -162,6 +162,17 @@ DocumentSchema.method({
  */
 DocumentSchema.statics = {
 
+
+  updateDocument(query, data) {
+    this.findOneAndUpdate(query, data, { upsert: true }).then((document) => {
+      if (document) {
+        return document;
+      }
+      const err = new APIError('No such document exists!', httpStatus.NOT_FOUND);
+      return Promise.reject(err);
+    });
+  },
+
   getDocumentByDocumentId(id) {
     return this.find({ fileInfo: { document_info: { document_id: id } } })
       .exec()

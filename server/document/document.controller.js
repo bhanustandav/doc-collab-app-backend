@@ -7,14 +7,10 @@ function uploadDocument(req, res, next) {
   console.log('#########');
   console.log(file);
   console.log(req.body);
-  const savedDocument = Document.getDocumentByDocumentId(req.body.id);
-  savedDocument.fileMetada = req.file;
-  // savedDocument.save().then(document => res.json(document))
-  //   .catch(e => next(e));
 
-  // eslint-disable-next-line consistent-return
-  savedDocument.update({ fileMetada: req.file }).then(document => res.json(document))
-    .catch(e => next(e));
+  const query = { fileInfo: { document_info: { document_id: req.body.id } } };
+  const data = { fileMetada: req.file };
+  return res.json(Document.updateDocument(query, data));
 }
 
 
