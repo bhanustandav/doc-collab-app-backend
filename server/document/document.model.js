@@ -7,21 +7,104 @@ const APIError = require('../helpers/APIError');
  * User Schema
  */
 const DocumentSchema = new mongoose.Schema({
-  clientId: {
-    type: String,
-    required: true
-  },
-  documentName: {
-    type: String,
-    required: true
-  },
-  documentId: {
-    type: String,
-    required: true
-  },
-  documentFormat: {
-    type: String,
-    required: true
+  fileData: {
+    document_defaults: {
+      font_size: {
+        type: String,
+        required: true
+      },
+      font_name: {
+        type: String,
+        required: true
+      },
+      orientation: {
+        type: String,
+        required: true
+      },
+      paper_size: {
+        type: String,
+        required: true
+      },
+      track_changes: {
+        type: String,
+        required: true
+      },
+    },
+    editor_settings: {
+      unit: {
+        type: String,
+        required: true
+      },
+      language: {
+        type: String,
+        required: true
+      },
+      view: {
+        type: String,
+        required: true
+      },
+    },
+    permissions: {
+      'document.export': {
+        type: String,
+        required: true
+      },
+      'document.print': {
+        type: String,
+        required: true
+      },
+      'document.edit': {
+        type: String,
+        required: true
+      },
+      'review.changes.resolve': {
+        type: String,
+        required: true
+      },
+      'review.comment': {
+        type: String,
+        required: true
+      },
+      'collab.chat': {
+        type: String,
+        required: true
+      }
+    },
+    callback_settings: {
+      save_format: {
+        type: String,
+        required: true
+      },
+      save_url: {
+        type: String,
+        required: true
+      },
+      context_info: {
+        type: String,
+        required: true
+      }
+    },
+    document_info: {
+      document_name: {
+        type: String,
+        required: true
+      },
+      document_id: {
+        type: String,
+        required: true
+      }
+    },
+    user_info: {
+      user_id: {
+        type: String,
+        required: true
+      },
+      display_name: {
+        type: String,
+        required: true
+      }
+    }
+
   },
   document: {
     session_delete_url: {

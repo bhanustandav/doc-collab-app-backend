@@ -6,6 +6,7 @@ function uploadDocument(req, res, next) {
   const file = req.file;
   console.log('#########');
   console.log(file);
+  console.log(req.body);
   if (!file) {
     const error = new Error('Please upload a file');
     error.httpStatusCode = 400;
