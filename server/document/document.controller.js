@@ -8,7 +8,7 @@ function uploadDocument(req, res, next) {
   console.log(file);
   console.log(req.body);
 
-  const query = { fileInfo: { document_info: { document_id: req.body.id } } };
+  const query = { 'fileInfo.document_info.document_id': req.body.id };
   const data = { fileMetada: req.file };
   return res.json(Document.updateDocument(query, data));
 }
