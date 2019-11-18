@@ -112,7 +112,7 @@ const DocumentSchema = new mongoose.Schema({
     }
 
   },
-  document: {
+  zohoDocumentResponse: {
     session_delete_url: {
       type: String,
       required: true

@@ -58,7 +58,7 @@ function getDocumentsByClient(req, res) {
 function create(req, res, next) {
   const document = new Document({
     fileInfo: req.body.fileInfo,
-    document: req.body.document
+    zohoDocumentResponse: req.body.zohoDocumentResponse
   });
 
   document.save()
