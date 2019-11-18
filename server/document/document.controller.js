@@ -58,6 +58,7 @@ function create(req, res, next) {
   const document = new Document({
     clientId: req.body.clientId,
     documentName: req.body.documentName,
+    documentId: req.body.documentId,
     documentFormat: req.body.documentFormat,
     document: req.body.document
   });
