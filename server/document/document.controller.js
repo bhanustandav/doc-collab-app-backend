@@ -12,7 +12,8 @@ function uploadDocument(req, res, next) {
   const data = { fileMetada: req.file };
 
 
-  Document.updateDocument(query, data).then(savedDocument => res.json(savedDocument))
+  // eslint-disable-next-line no-unused-vars
+  Document.updateDocument(query, data).then(savedDocument => res.send('Document saved  successfully'))
     .catch(e => next(e));
 
   // return res.json(Document.updateDocument(query, data));
