@@ -181,7 +181,7 @@ DocumentSchema.statics = {
 
 
   getDocumentsByClientId(id) {
-    return this.find({ clientId: id })
+    return this.find({ 'fileInfo.user_info.user_id': id })
       .exec()
       .then(documents => documents);
   },
