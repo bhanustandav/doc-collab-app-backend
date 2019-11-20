@@ -6,9 +6,13 @@ const officeintegratorCtrl = require('./zoho-office-integrator.controller');
 
 const router = express.Router(); // eslint-disable-line new-cap
 
-router.route('/')
+router.route('/create')
   /** POST /api/users - Create new user */
   .post(upload.none(), officeintegratorCtrl.create);
+
+router.route('/edit')
+/** POST /api/users - Create new user */
+  .post(upload.none(), officeintegratorCtrl.edit);
 
 
 module.exports = router;
