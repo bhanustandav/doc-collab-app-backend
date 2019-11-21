@@ -32,6 +32,7 @@ function loadDocumentsByClient(req, res, next, id) {
 
   Document.getDocumentsLength()
     .then((length) => {
+      console.log('length', length)
       req.documents.length = length; // eslint-disable-line no-param-reassign
       return next();
     })
