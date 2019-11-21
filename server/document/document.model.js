@@ -188,6 +188,13 @@ DocumentSchema.statics = {
       .then(documents => documents);
   },
 
+  getDocumentsLength() {
+    return this.find({})
+      .count()
+      .exec()
+      .then(data => data);
+  },
+
   /**
    * Get user
    * @param {ObjectId} id - The objectId of document.
