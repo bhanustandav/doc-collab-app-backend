@@ -25,19 +25,18 @@ function loadDocumentsByClient(req, res, next, id) {
   console.log('req.query.pageSize ', req.query.pageSize);
 
   // eslint-disable-next-line no-param-reassign
-  req.documents = {}
+  req.documents = {};
 
   Document.getDocumentsByClientId(id, parseInt(req.query.pageNum), parseInt(req.query.pageSize))
     .then((documents) => {
-      req.documents.documents = documents; // eslint-disable-line no-param-reassign
-    })
-    .catch(e => next(e));
-
-  Document.getDocumentsLength()
-    .then((length) => {
-      console.log('length', length)
-      req.documents.length = length; // eslint-disable-line no-param-reassign
-      return next();
+      req.documents.data = documents; // eslint-disable-line no-param-reassign
+      Document.getDocumentsLength()
+        .then((length) => {
+          console.log('length', length);
+          req.documents.length = length; // eslint-disable-line no-param-reassign
+          return next();
+        })
+        .catch(e => next(e));
     })
     .catch(e => next(e));
 }
