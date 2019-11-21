@@ -21,6 +21,9 @@ function uploadDocument(req, res, next) {
 
 
 function loadDocumentsByClient(req, res, next, id) {
+  console.log('req.query.pageNum ', req.query.pageNum);
+  console.log('req.query.pageSize ', req.query.pageSize);
+
   Document.getDocumentsByClientId(id, req.query.pageNum, req.query.pageSize)
     .then((documents) => {
       req.documents = documents; // eslint-disable-line no-param-reassign
