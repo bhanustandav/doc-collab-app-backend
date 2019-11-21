@@ -24,6 +24,9 @@ function loadDocumentsByClient(req, res, next, id) {
   console.log('req.query.pageNum ', req.query.pageNum);
   console.log('req.query.pageSize ', req.query.pageSize);
 
+  // eslint-disable-next-line no-param-reassign
+  req.documents = {}
+
   Document.getDocumentsByClientId(id, parseInt(req.query.pageNum), parseInt(req.query.pageSize))
     .then((documents) => {
       req.documents.data = documents; // eslint-disable-line no-param-reassign
