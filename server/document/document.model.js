@@ -180,8 +180,10 @@ DocumentSchema.statics = {
   },
 
 
-  getDocumentsByClientId(id) {
+  getDocumentsByClientId(id, pageNum, pageSize) {
+    const skips = pageSize * (pageNum - 1)
     return this.find({ 'fileInfo.user_info.user_id': id })
+      .skip(skips).limit(pageSize)
       .exec()
       .then(documents => documents);
   },
