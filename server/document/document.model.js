@@ -181,8 +181,9 @@ DocumentSchema.statics = {
 
 
   getDocumentsByClientId(id, pageNum, pageSize) {
-    const skips = pageSize * (pageNum - 1)
+    const skips = pageSize * (pageNum - 1);
     return this.find({ 'fileInfo.user_info.user_id': id })
+      .sort({ createdAt: 1 })
       .skip(skips).limit(pageSize)
       .exec()
       .then(documents => documents);
