@@ -73,4 +73,4 @@ function deleteDocument(req, res, next) {
   });
 }
 
-module.exports = { create, edit };
+module.exports = { create, edit, deleteDocument };
