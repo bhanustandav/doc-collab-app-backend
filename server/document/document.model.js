@@ -164,7 +164,7 @@ DocumentSchema.statics = {
 
 
   updateDocument(query, data) {
-    return this.findOneAndUpdate(query, data, { upsert: true }).then((document) => {
+    return this.findOneAndUpdate(query, data, { upsert: false }).then((document) => {
       if (document) {
         return document;
       }

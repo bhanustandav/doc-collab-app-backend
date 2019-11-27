@@ -56,4 +56,21 @@ function edit(req, res, next) {
   });
 }
 
+// eslint-disable-next-line no-unused-vars
+function deleteDocument(req, res, next) {
+  const inputData = req.body;
+
+
+  const options = {
+    method: 'DELETE',
+    url: `https://writer.zoho.com/writer/v1/officeapi/session/${inputData.sessionKey}?apikey=19232f09d016ec7d0cba5e057d7dd652`
+  };
+
+  request(options, (err, httpResponse, body) => {
+    if (err) console.log(err);
+    console.log(body);
+    return res.send(body);
+  });
+}
+
 module.exports = { create, edit };
