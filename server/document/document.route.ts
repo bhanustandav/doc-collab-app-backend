@@ -1,14 +1,14 @@
-const express = require('express');
-const documentCtrl = require('./document.controller');
+import express from 'express';
+import DocumentCtrl from './document.controller';
 
 const multer = require('multer');
-
+const documentCtrl = new DocumentCtrl()
 // SET STORAGE
 const storage = multer.diskStorage({
-  destination(req, file, cb) {
+  destination(req: any, file: any, cb: (arg0: null, arg1: string) => void) {
     cb(null, 'uploads');
   },
-  filename(req, file, cb) {
+  filename(req: { body: { filename: any; }; }, file: any, cb: (arg0: null, arg1: string) => void) {
     cb(null, `${req.body.filename}`);
   }
 });
@@ -19,7 +19,7 @@ const router = express.Router(); // eslint-disable-line new-cap
 
 router.route('/')
   /** GET /api/documents - Get list of documents */
-  .get(documentCtrl.list)
+  .get(documentCtrl.listDocuments)
 
   /** POST /api/documents - Create new document */
   .post(documentCtrl.create);
@@ -31,10 +31,7 @@ router.route('/upload')
 
 router.route('/clientId/:clientId')
 /** GET /api/documents/:documentId - Get document */
-  .get(documentCtrl.getDocumentsByClient);
-
-/** Load document when API with documentId route parameter is hit */
-router.param('clientId', documentCtrl.loadDocumentsByClient);
+  .get( documentCtrl.loadDocumentsByClient);
 
 router.route('/:documentId')
   /** GET /api/documents/:documentId - Get document */

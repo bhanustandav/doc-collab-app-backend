@@ -1,0 +1,20 @@
+export enum WorkflowProperties {
+  NULL,
+  DRAFT_REQUEST,
+  DRAFT_IN_PROGRESS,
+  NEW_DRAFT,
+  SENT_FOR_REVIEW,
+  REVIEW_IN_PROGRESS,
+  REVIEW_COMPLETED,
+  SENT_FOR_APPROVE,
+  APPROVAL_IN_PROGRESS,
+  APPROVAL_COMPLETED,
+  SENT_FOR_EXECUTION,
+  EXECUTION_IN_PROGRESS,
+  EXECUTION_COMPLETED
+}
+
+export default interface StateInterface {
+  id: string
+  label: WorkflowProperties
+}

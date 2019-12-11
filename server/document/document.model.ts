@@ -1,7 +1,19 @@
-const Promise = require('bluebird');
-const mongoose = require('mongoose');
-const httpStatus = require('http-status');
-const APIError = require('../helpers/APIError');
+import Promise from 'bluebird';
+import mongoose from 'mongoose';
+// import httpStatus from 'http-status';
+// import APIError from '../helpers/APIError';
+
+
+export interface DocumentSchemaInterface extends mongoose.Document{
+  fileInfo: object
+  metaData: object
+  zohoDocumentResponse: object
+  updateDocument(query: any, data: any): any;
+  getDocumentsByClientId(id: any, pageNum: any, pageSize: any): any
+  getDocumentsLength(): any
+  get(id: any): any
+  list(data: object): any
+}
 
 /**
  * User Schema
@@ -163,37 +175,37 @@ DocumentSchema.method({
 DocumentSchema.statics = {
 
 
-  updateDocument(query, data) {
-    return this.findOneAndUpdate(query, data, { upsert: false }).then((document) => {
+  updateDocument(query: any, data: any) {
+    return this.findOneAndUpdate(query, data, { upsert: false }).then((document: any) => {
       if (document) {
         return document;
       }
-      const err = new APIError('No such document exists!', httpStatus.NOT_FOUND);
-      return Promise.reject(err);
+      // const err = new APIError('No such document exists!', httpStatus.NOT_FOUND);
+      return Promise.reject({});
     });
   },
 
-  getDocumentByDocumentId(id) {
+  getDocumentByDocumentId(id: any) {
     return this.find({ fileInfo: { document_info: { document_id: id } } })
       .exec()
-      .then(document => document);
+      .then((document: any) => document);
   },
 
 
-  getDocumentsByClientId(id, pageNum, pageSize) {
+  getDocumentsByClientId(id: any, pageNum: number, pageSize: number) {
     const skips = pageSize * (pageNum - 1);
     return this.find({ 'fileInfo.user_info.user_id': id })
       .sort({ createdAt: -1 })
       .skip(skips).limit(pageSize)
       .exec()
-      .then(documents => documents);
+      .then((documents: any) => documents);
   },
 
   getDocumentsLength() {
     return this.find({})
       .count()
       .exec()
-      .then(data => data);
+      .then((data: any) => data);
   },
 
   /**
@@ -201,15 +213,15 @@ DocumentSchema.statics = {
    * @param {ObjectId} id - The objectId of document.
    * @returns {Promise<document, APIError>}
    */
-  get(id) {
+  get(id: any) {
     return this.findById(id)
       .exec()
-      .then((document) => {
+      .then((document: any) => {
         if (document) {
           return document;
         }
-        const err = new APIError('No such document exists!', httpStatus.NOT_FOUND);
-        return Promise.reject(err);
+        // const err = new APIError('No such document exists!', httpStatus.NOT_FOUND);
+        return Promise.reject({});
       });
   },
 
@@ -231,4 +243,6 @@ DocumentSchema.statics = {
 /**
  * @typedef Document
  */
-module.exports = mongoose.model('Document', DocumentSchema);
+// export default mongoose.model('Document', DocumentSchema);
+
+export const DocumentDBModel: mongoose.Model<DocumentSchemaInterface> = mongoose.model<DocumentSchemaInterface>('DocumentDBModel', DocumentSchema);

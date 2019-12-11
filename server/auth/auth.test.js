@@ -55,7 +55,7 @@ describe('## Auth APIs', () => {
   describe('# GET /api/auth/random-number', () => {
     it('should fail to get random number because of missing Authorization', (done) => {
       request(app)
-        .get('/api/auth/random-number')
+        .get()
         .expect(httpStatus.UNAUTHORIZED)
         .then((res) => {
           expect(res.body.message).to.equal('Unauthorized');
@@ -66,7 +66,7 @@ describe('## Auth APIs', () => {
 
     it('should fail to get random number because of wrong token', (done) => {
       request(app)
-        .get('/api/auth/random-number')
+        .get()
         .set('Authorization', 'Bearer inValidToken')
         .expect(httpStatus.UNAUTHORIZED)
         .then((res) => {
@@ -78,7 +78,7 @@ describe('## Auth APIs', () => {
 
     it('should get a random number', (done) => {
       request(app)
-        .get('/api/auth/random-number')
+        .get()
         .set('Authorization', jwtToken)
         .expect(httpStatus.OK)
         .then((res) => {

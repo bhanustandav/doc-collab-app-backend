@@ -3,7 +3,7 @@ const util = require('util');
 const bodyParser = require('body-parser');
 
 // config should be imported before importing any other file
-const config = require('./config/config');
+import {config} from './config/config';
 // eslint-disable-next-line import/newline-after-import
 const app = require('./config/express');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,7 +26,7 @@ mongoose.connection.on('error', () => {
 
 // print mongoose logs in dev env
 if (config.mongooseDebug) {
-  mongoose.set('debug', (collectionName, method, query, doc) => {
+  mongoose.set('debug', (collectionName: any, method: any, query: any, doc: any) => {
     debug(`${collectionName}.${method}`, util.inspect(query, false, 20), doc);
   });
 }
