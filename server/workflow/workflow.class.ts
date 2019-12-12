@@ -1,9 +1,12 @@
+import {ObjectID}  from 'mongodb'
+const Promise = require("bluebird");
 import Workflow from "./workflow.interface";
 import EmployeeClass from "../employee/employee.class";
 import StateClass from "./state/state.class";
 import DocumentClass from "../document/document.class";
 import {WorkflowDBModel} from './workflow.model'
 import {WorkflowRepository} from './workflow.db'
+import {DocumentRepository} from "../document/document.db";
 
 export default class WorkflowClass implements Workflow{
 
@@ -13,6 +16,7 @@ export default class WorkflowClass implements Workflow{
   modifiedDate: Date;
   reporter: EmployeeClass;
   state: StateClass;
+  stateData: Array<any>;
 
   constructor( document: DocumentClass, assignee: EmployeeClass, reporter: EmployeeClass, state: StateClass, createdDate: Date, modifiedDate: Date) {
     this.assignee = assignee;
@@ -21,6 +25,56 @@ export default class WorkflowClass implements Workflow{
     this.modifiedDate = modifiedDate;
     this.reporter = reporter;
     this.state = state;
+    this.stateData = [
+      {
+        "_id": "5dee1eabf2880e28d18f18cc",
+        "label": "DRAFT_REQUEST"
+      },
+      {
+        "_id": "5dee1fa5f2880e28d18f18cd",
+        "label": "DRAFT_IN_PROGRESS"
+      },
+      {
+        "_id": "5dee20b453f85841aa07aaa7",
+        "label": "NEW_DRAFT"
+      },
+      {
+        "_id": "5dee20b453f85841aa07aaa8",
+        "label": "SENT_FOR_REVIEW"
+      },
+      {
+        "_id": "5dee20b453f85841aa07aaa9",
+        "label": "REVIEW_IN_PROGRESS"
+      },
+      {
+        "_id": "5dee20b453f85841aa07aaaa",
+        "label": "REVIEW_COMPLETED"
+      },
+      {
+        "_id": "5dee20b453f85841aa07aaab",
+        "label": "SENT_FOR_APPROVE"
+      },
+      {
+        "_id": "5dee20b453f85841aa07aaac",
+        "label": "APPROVAL_IN_PROGRESS"
+      },
+      {
+        "_id": "5dee20b453f85841aa07aaad",
+        "label": "APPROVAL_COMPLETED"
+      },
+      {
+        "_id": "5dee20b453f85841aa07aaae",
+        "label": "SENT_FOR_EXECUTION"
+      },
+      {
+        "_id": "5dee20b453f85841aa07aaaf",
+        "label": "EXECUTION_IN_PROGRESS"
+      },
+      {
+        "_id": "5dee20b753f85841aa07aab0",
+        "label": "EXECUTION_COMPLETED"
+      }
+    ]
   }
 
   addWorkFlowEvent = (workflow: WorkflowClass) => {
@@ -41,5 +95,69 @@ export default class WorkflowClass implements Workflow{
     return workflowRepository.find({},{},{})
       .exec()
       .then(events => events)
+  }
+
+  getWorkflowEventsByReporter1 = (reporter: any) => {
+    const workflowRepository = new WorkflowRepository()
+    const aggregatations: any[] = [
+      {$sort:{"createdDate":-1}},
+      { $match: { reporter: reporter } },
+      { $group: { _id: "$documentId",'assignee': {$first: '$assignee'},
+          'reporter': {$first: '$reporter'},
+          'stateId': {$first: '$stateId'},'createdDate': {$first: '$createdDate'}} }
+    ]
+    return workflowRepository.aggregate(aggregatations).then(events => {
+      console.log("events")
+      return events
+    })
+
+  }
+
+  getWorkflowEventsByReporter = (reporter: any) => {
+    const workflowRepository = new WorkflowRepository()
+    const aggregatations: any[] = [
+      {$sort:{"createdDate":-1}},
+      { $match: { reporter: reporter } },
+      { $group: { _id: "$documentId",'assignee': {$first: '$assignee'},
+          'reporter': {$first: '$reporter'},
+          'stateId': {$first: '$stateId'},'createdDate': {$first: '$createdDate'}} }
+    ]
+    const documentRepository = new DocumentRepository();
+    const aggregations = workflowRepository.aggregate(aggregatations).then(aggregations => aggregations)
+    // console.log(documentRepository.findById(new ObjectID("5df215e97116361a6ab09597"),(obj)=>obj).then(data => {return data}).then(doc => {return doc}))
+    // console.log("document")
+    // console.log(documentRepository.findById(new ObjectID(""),(obj)=>obj)
+    //   .exec()
+    //   .then((document: any) => {
+    //     return document
+    //   }).then(docobj => {
+    //     console.log("#")
+    //     console.log(docobj)
+    //     return docobj
+    //   }))
+
+    return aggregations.then(events => {
+      console.log("events")
+      console.log(events)
+      // return events
+
+      const result: any = []
+
+      return Promise.mapSeries(events, (event: any) => {
+        return documentRepository.findById(new ObjectID(event._id),(obj)=>obj)
+       }).then((documents: any) => {
+        return events.map(eventData => {
+          console.log("documents")
+          console.log(documents)
+          let data: any = {}
+          data.reporter = eventData.reporter
+          data.assignee = eventData.assignee
+          data.document = documents.find((doc: any) => doc._id = eventData._id)
+          data.state = this.stateData.find(state => state._id === eventData.stateId)
+          // result.push(data)
+          return data
+        })
+      });
+    })
   }
 }

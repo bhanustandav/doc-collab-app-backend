@@ -1,6 +1,7 @@
 import * as mongoose from "mongoose";
 import {IRead} from "./IRead";
 import {IWrite} from "./IWrite";
+import {Aggregate, DocumentQuery, Promise} from "mongoose";
 
 export class RepositoryBase<T extends mongoose.Document> implements IRead<T>, IWrite<T> {
 
@@ -26,8 +27,8 @@ export class RepositoryBase<T extends mongoose.Document> implements IRead<T>, IW
     this._model.remove({ _id: this.toObjectId(_id) }, (err) => callback(err, null));
   }
 
-  findById(_id: string, callback: (error: any, result: T) => void) {
-    this._model.findById(_id, callback);
+  findById(id: any | string | number,callback?: (err: any, res: T | null) => void): DocumentQuery<mongoose.Document | null, mongoose.Document> {
+    return  this._model.findById(id, callback);
   }
 
   findOne(cond?: Object, callback?: (err: any, res: T) => void): mongoose.DocumentQuery<mongoose.Document | null, mongoose.Document, object> {
@@ -36,6 +37,11 @@ export class RepositoryBase<T extends mongoose.Document> implements IRead<T>, IW
 
   find(cond: any, fields: any, options: any, sortOptions?: any, callback?: (err: any, res: T[]) => void): mongoose.DocumentQuery<mongoose.Document[], mongoose.Document,object> {
     return this._model.find(cond, options, callback);
+  }
+
+  //aggregate(aggregations?: any[]): Aggregate<any[]>;
+  aggregate(aggregations: any[]): Aggregate<any[]> {
+    return this._model.aggregate(aggregations)
   }
 
   private toObjectId(_id: string): mongoose.Types.ObjectId {

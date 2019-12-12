@@ -15,4 +15,9 @@ router.route('/')
   .post(workflowController.create)
   .get(workflowController.get);
 
+router.route('/filter/:reporter')
+
+  /** POST /api/users - Create new user */
+  .get(workflowController.filter);
+
 module.exports = router;

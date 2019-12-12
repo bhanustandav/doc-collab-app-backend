@@ -29,4 +29,22 @@ export default class WorkflowController {
     const WorkflowObj = new Workflow(document, assignee, reporter, state,createdDate, modifiedDate);
     return WorkflowObj.getWorkflowEvents().then(events => res.json(events))
   }
+
+  filter = (req: any, res: any) => {
+     console.log("in filter")
+    const document = new DocumentClass('', {}, {}, {})
+    const assignee = new EmployeeClass(0, '', '', '')
+    const reporter = new EmployeeClass(0, '', '', '')
+    const state = new StateClass(req.body.stateId, WorkflowProperties.NULL)
+    const createdDate = req.body.createdDate
+    const modifiedDate = req.body.createdDate
+    const WorkflowObj = new Workflow(document, assignee, reporter, state,createdDate, modifiedDate);
+
+    const reporterId = req.params.reporter
+
+    console.log(reporterId)
+
+    return WorkflowObj.getWorkflowEventsByReporter(reporterId).then(events => res.json(events))
+  }
 }
+
