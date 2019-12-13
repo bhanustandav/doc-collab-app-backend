@@ -31,6 +31,10 @@ export class RepositoryBase<T extends mongoose.Document> implements IRead<T>, IW
     return  this._model.findById(id, callback);
   }
 
+  findOneAndUpdate(cond?: Object, update?: any, callback?: (err: any, res: T) => void): mongoose.DocumentQuery<mongoose.Document | null, mongoose.Document, object> {
+    return this._model.findOneAndUpdate(cond, update);
+  }
+
   findOne(cond?: Object, callback?: (err: any, res: T) => void): mongoose.DocumentQuery<mongoose.Document | null, mongoose.Document, object> {
     return this._model.findOne(cond, callback);
   }

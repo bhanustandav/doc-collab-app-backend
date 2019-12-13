@@ -1,6 +1,7 @@
 import {DocumentDBModel as Document} from './document.model';
 import {DocumentRepository} from './document.db';
 import DocumentClass from './document.class';
+import Promise from "bluebird";
 
 export default class DocumentCtrl {
   // eslint-disable-next-line consistent-return
@@ -13,6 +14,15 @@ export default class DocumentCtrl {
 
     const query = { 'fileInfo.document_info.document_id': req.body.id };
     const data = { fileMetada: req.file };
+
+    const documentRepository = new DocumentRepository();
+    documentRepository.findOneAndUpdate(query, data).then((document: any) => {
+      if (document) {
+        return document;
+      }
+      // const err = new APIError('No such document exists!', httpStatus.NOT_FOUND);
+      return Promise.reject({});
+    });
 
     const document = new Document();
     // eslint-disable-next-line no-unused-vars
