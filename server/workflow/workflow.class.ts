@@ -152,12 +152,11 @@ export default class WorkflowClass implements Workflow{
           let data: any = {}
           data.reporter = eventData.reporter
           data.assignee = eventData.assignee
-          data.document = documents.find((doc: any) => doc._id = eventData._id)
+          data.document = documents.find((doc: any) => doc._id === eventData._id)
           data.state = this.stateData.find(state => state._id === eventData.stateId)
-          // result.push(data)
           return data
         })
-      });
+      }).catch((error: any) => error)
     })
   }
 }
