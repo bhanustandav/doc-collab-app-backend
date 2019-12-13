@@ -16,7 +16,7 @@ export default class DocumentCtrl {
     const data = { fileMetada: req.file };
 
     const documentRepository = new DocumentRepository();
-    documentRepository.findOneAndUpdate(query, data).then((document: any) => {
+    documentRepository.findOneAndUpdate(query, data, { upsert: true, new: true}).then((document: any) => {
       if (document) {
         return document;
       }
@@ -28,6 +28,14 @@ export default class DocumentCtrl {
     // // eslint-disable-next-line no-unused-vars
     // document.updateDocument(query, data).then(() => res.send('Document saved  successfully'))
     //   .catch((e: any) => next(e));
+
+    return this.findOneAndUpdate(query, data, { upsert: false }).then((document: any) => {
+      if (document) {
+        return document;
+      }
+      // const err = new APIError('No such document exists!', httpStatus.NOT_FOUND);
+      return Promise.reject({});
+    });
   }
 
    loadDocumentsByClient(req: any, res: any, next: any) {

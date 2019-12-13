@@ -1,7 +1,7 @@
 import * as mongoose from "mongoose";
 import {IRead} from "./IRead";
 import {IWrite} from "./IWrite";
-import {Aggregate, DocumentQuery, Promise} from "mongoose";
+import {Aggregate, DocumentQuery, Promise, QueryFindOneAndUpdateOptions} from "mongoose";
 
 export class RepositoryBase<T extends mongoose.Document> implements IRead<T>, IWrite<T> {
 
@@ -31,8 +31,8 @@ export class RepositoryBase<T extends mongoose.Document> implements IRead<T>, IW
     return  this._model.findById(id, callback);
   }
 
-  findOneAndUpdate(cond?: Object, update?: any, callback?: (err: any, res: T) => void): mongoose.DocumentQuery<mongoose.Document | null, mongoose.Document, object> {
-    return this._model.findOneAndUpdate(cond, update);
+  findOneAndUpdate(conditions: any, update: any, options: { upsert: true, new: true }): DocumentQuery<mongoose.Document, mongoose.Document> {
+    return this._model.findOneAndUpdate(conditions, update, options);
   }
 
   findOne(cond?: Object, callback?: (err: any, res: T) => void): mongoose.DocumentQuery<mongoose.Document | null, mongoose.Document, object> {
