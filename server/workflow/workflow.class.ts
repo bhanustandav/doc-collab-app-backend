@@ -149,10 +149,11 @@ export default class WorkflowClass implements Workflow{
         return events.map(eventData => {
           console.log("documents")
           console.log(documents)
+          console.log(eventData)
           let data: any = {}
           data.reporter = eventData.reporter
           data.assignee = eventData.assignee
-          data.document = documents.find((doc: any) => doc._id === eventData._id)
+          data.document = documents.find((doc: any) => doc._id.toString() === eventData._id)
           data.state = this.stateData.find(state => state._id === eventData.stateId)
           return data
         })
