@@ -77,13 +77,24 @@ export default class ZohoOfficeIntegratorCtrl {
     });
   }
 
-  saveDocument(req:any, res: any, next: any) {
+  saveDocument(req: any, res: any, next: any) {
     const inputData = req.body;
+    const formData : any= {};
 
+    // // eslint-disable-next-line guard-for-in,no-restricted-syntax
+    // for (const key in inputData) {
+    //   // @ts-ignore
+    //   formData[key.toString()] = inputData[key];
+    // }
 
+    formData['apikey'] = inputData['apikey']
     const options = {
-      method: 'GET',
-      url: `https://writer.zoho.com/writer/v1/document/${inputData.sessionKey}/save`
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      url: `https://writer.zoho.com/writer/officeapi/v1/document/${inputData.sessionKey}/save`,
+      formData
     };
 
     request(options, (err: any, httpResponse: any, body: any) => {
