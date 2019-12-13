@@ -19,5 +19,8 @@ router.route('/delete')
 /** POST /api/users - Create new user */
   .post(upload.none(), officeintegratorCtrl.deleteDocument);
 
+router.route('/save')
+  /** POST /api/users - Create new user */
+  .post(upload.none(), officeintegratorCtrl.saveDocument);
 
 module.exports = router;

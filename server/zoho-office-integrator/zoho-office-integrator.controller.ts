@@ -77,4 +77,20 @@ export default class ZohoOfficeIntegratorCtrl {
     });
   }
 
+  saveDocument(req:any, res: any, next: any) {
+    const inputData = req.body;
+
+
+    const options = {
+      method: 'GET',
+      url: `https://writer.zoho.com/writer/v1/document/${inputData.sessionKey}/save`
+    };
+
+    request(options, (err: any, httpResponse: any, body: any) => {
+      if (err) console.log(err);
+      console.log(body);
+      return res.send(body);
+    });
+  }
+
 }
