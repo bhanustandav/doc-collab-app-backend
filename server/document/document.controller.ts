@@ -19,7 +19,9 @@ export default class DocumentCtrl {
     documentRepository.findOneAndUpdate(query, data, { upsert: true, new: true}).then((document: any) => {
       if (document) {
         console.log(document)
-        return document;
+        // return document;
+
+        return res.send('Document saved  successfully')
       }
       console.log("error")
       // const err = new APIError('No such document exists!', httpStatus.NOT_FOUND);
