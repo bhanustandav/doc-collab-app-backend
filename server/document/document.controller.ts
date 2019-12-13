@@ -18,8 +18,10 @@ export default class DocumentCtrl {
     const documentRepository = new DocumentRepository();
     documentRepository.findOneAndUpdate(query, data, { upsert: true, new: true}).then((document: any) => {
       if (document) {
+        console.log(document)
         return document;
       }
+      console.log("error")
       // const err = new APIError('No such document exists!', httpStatus.NOT_FOUND);
       return Promise.reject({});
     });
