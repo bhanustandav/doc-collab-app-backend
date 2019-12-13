@@ -16,7 +16,7 @@ export default class DocumentCtrl {
     const data = { fileMetada: req.file };
 
     const documentRepository = new DocumentRepository();
-    documentRepository.findOneAndUpdate(query, data, { upsert: true, new: true}).then((document: any) => {
+    documentRepository.findOneAndUpdate(query, data).then((document: any) => {
       if (document) {
         console.log(document)
         // return document;
