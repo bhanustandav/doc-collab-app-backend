@@ -2,7 +2,6 @@ import express from 'express';
 const documentRoutes = require('./server/document/document.route');
 const workflowRoutes = require('./server/workflow/workflow.route');
 const officeIntegratorRoutes = require('./server/zoho-office-integrator/zoho-office-integrator.route');
-const userRoutes = require('./server/user/user.route');
 
 const router = express.Router(); // eslint-disable-line new-cap
 
@@ -18,8 +17,5 @@ router.use('/documents', documentRoutes);
 router.use('/workflow', workflowRoutes);
 
 router.use('/officeIntegrator/files', officeIntegratorRoutes);
-
-// mount user routes at /users
-router.use('/users', userRoutes);
 
 module.exports = router;
