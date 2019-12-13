@@ -29,13 +29,13 @@ export default class DocumentCtrl {
     // document.updateDocument(query, data).then(() => res.send('Document saved  successfully'))
     //   .catch((e: any) => next(e));
 
-    return this.findOneAndUpdate(query, data, { upsert: false }).then((document: any) => {
-      if (document) {
-        return document;
-      }
-      // const err = new APIError('No such document exists!', httpStatus.NOT_FOUND);
-      return Promise.reject({});
-    });
+    // return this.findOneAndUpdate(query, data, { upsert: false }).then((document: any) => {
+    //   if (document) {
+    //     return document;
+    //   }
+    //   // const err = new APIError('No such document exists!', httpStatus.NOT_FOUND);
+    //   return Promise.reject({});
+    // });
   }
 
    loadDocumentsByClient(req: any, res: any, next: any) {
