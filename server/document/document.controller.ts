@@ -24,10 +24,10 @@ export default class DocumentCtrl {
       return Promise.reject({});
     });
 
-    const document = new Document();
-    // eslint-disable-next-line no-unused-vars
-    document.updateDocument(query, data).then(() => res.send('Document saved  successfully'))
-      .catch((e: any) => next(e));
+    // const document = new Document();
+    // // eslint-disable-next-line no-unused-vars
+    // document.updateDocument(query, data).then(() => res.send('Document saved  successfully'))
+    //   .catch((e: any) => next(e));
   }
 
    loadDocumentsByClient(req: any, res: any, next: any) {
