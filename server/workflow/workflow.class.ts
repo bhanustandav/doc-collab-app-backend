@@ -1,4 +1,5 @@
-import {ObjectID}  from 'mongodb'
+import {ObjectID} from 'mongodb'
+
 const Promise = require("bluebird");
 import Workflow from "./workflow.interface";
 import EmployeeClass from "../employee/employee.class";
@@ -8,7 +9,7 @@ import {WorkflowDBModel} from './workflow.model'
 import {WorkflowRepository} from './workflow.db'
 import {DocumentRepository} from "../document/document.db";
 
-export default class WorkflowClass implements Workflow{
+export default class WorkflowClass implements Workflow {
 
   assignee: EmployeeClass;
   createdDate: Date;
@@ -18,7 +19,7 @@ export default class WorkflowClass implements Workflow{
   state: StateClass;
   stateData: Array<any>;
 
-  constructor( document: DocumentClass, assignee: EmployeeClass, reporter: EmployeeClass, state: StateClass, createdDate: Date, modifiedDate: Date) {
+  constructor(document: DocumentClass, assignee: EmployeeClass, reporter: EmployeeClass, state: StateClass, createdDate: Date, modifiedDate: Date) {
     this.assignee = assignee;
     this.createdDate = createdDate;
     this.document = document;
@@ -92,7 +93,7 @@ export default class WorkflowClass implements Workflow{
 
   getWorkflowEvents = () => {
     const workflowRepository = new WorkflowRepository()
-    return workflowRepository.find({},{},{})
+    return workflowRepository.find({}, {}, {})
       .exec()
       .then(events => events)
   }
@@ -100,11 +101,15 @@ export default class WorkflowClass implements Workflow{
   getWorkflowEventsByReporter1 = (reporter: any) => {
     const workflowRepository = new WorkflowRepository()
     const aggregatations: any[] = [
-      {$sort:{"createdDate":-1}},
-      { $match: { reporter: reporter } },
-      { $group: { _id: "$documentId",'assignee': {$first: '$assignee'},
+      {$sort: {"createdDate": -1}},
+      {$match: {reporter: reporter}},
+      {
+        $group: {
+          _id: "$documentId", 'assignee': {$first: '$assignee'},
           'reporter': {$first: '$reporter'},
-          'stateId': {$first: '$stateId'},'createdDate': {$first: '$createdDate'}} }
+          'stateId': {$first: '$stateId'}, 'createdDate': {$first: '$createdDate'}
+        }
+      }
     ]
     return workflowRepository.aggregate(aggregatations).then(events => {
       console.log("events")
@@ -115,37 +120,66 @@ export default class WorkflowClass implements Workflow{
 
   getWorkflowEventsByReporter = (reporter: any) => {
     const workflowRepository = new WorkflowRepository()
-    const aggregatations: any[] = [
-      {$sort:{"createdDate":-1}},
-      { $match: { reporter: reporter } },
-      { $group: { _id: "$documentId",'assignee': {$first: '$assignee'},
+    const aggregatations1: any[] = [
+      {$sort: {"createdDate": -1}},
+      {$match: {reporter: reporter}},
+      {
+        $group: {
+          _id: "$documentId", 'assignee': {$first: '$assignee'},
           'reporter': {$first: '$reporter'},
-          'stateId': {$first: '$stateId'},'createdDate': {$first: '$createdDate'}} }
+          'stateId': {$first: '$stateId'}, 'createdDate': {$first: '$createdDate'}
+        }
+      }
     ]
+
+    const aggregatations: any[] = [
+      {$sort: {"createdDate": -1}},
+      {$match: {reporter: reporter}},
+      {
+        $group: {
+          _id: "$documentId", 'assignee': {$first: '$assignee'},
+          'reporter': {$first: '$reporter'},
+          'stateId': {$first: '$stateId'}, 'createdDate': {$first: '$createdDate'}
+        }
+      },
+      {
+        "$lookup": {
+          "from": "workflowdbmodels",
+          "localField": "_id",
+          "foreignField": "documentId",
+          "as": "document"
+        }
+      },
+      {$project: {'document': 1, _id: 0}},
+      {
+        $unwind:
+          {
+            path: "$document"
+          }
+      },
+      {$sort: {"document.createdDate": -1}},
+      {
+        $group: {
+          _id: "$document.documentId", 'assignee': {$first: '$document.assignee'},
+          'reporter': {$first: '$document.reporter'},
+          'stateId': {$first: '$document.stateId'}, 'createdDate': {$first: '$document.createdDate'}
+        }
+      },
+
+    ]
+
     const documentRepository = new DocumentRepository();
     const aggregations = workflowRepository.aggregate(aggregatations).then(aggregations => aggregations)
-    // console.log(documentRepository.findById(new ObjectID("5df215e97116361a6ab09597"),(obj)=>obj).then(data => {return data}).then(doc => {return doc}))
-    // console.log("document")
-    // console.log(documentRepository.findById(new ObjectID(""),(obj)=>obj)
-    //   .exec()
-    //   .then((document: any) => {
-    //     return document
-    //   }).then(docobj => {
-    //     console.log("#")
-    //     console.log(docobj)
-    //     return docobj
-    //   }))
 
     return aggregations.then(events => {
       console.log("events")
       console.log(events)
-      // return events
 
       const result: any = []
 
       return Promise.mapSeries(events, (event: any) => {
-        return documentRepository.findById(new ObjectID(event._id),(obj)=>obj)
-       }).then((documents: any) => {
+        return documentRepository.findById(new ObjectID(event._id), (obj) => obj)
+      }).then((documents: any) => {
         return events.map(eventData => {
           console.log("documents")
           console.log(documents)
